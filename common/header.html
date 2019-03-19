@@ -1,16 +1,25 @@
 <script type="text/discourse-plugin" version="0.8.20">
 let customHeaderLinks = settings.Custom_header_links;
+const { iconNode } = require("discourse-common/lib/icon-library");
 
 customHeaderLinks.split("|").map(i => {
   let seg = $.map(i.split(","), $.trim),
-    linkText = seg[0],
-    linkTitle = seg[1],
-    linkHref = seg[2],
-    deviceClass = "." + seg[3],
-    linkTarget = seg[4] === "self" ? "" : "_blank",
-    keepOnScrollClass = seg[5] === "keep" ? ".keep" : "";
+    linkIcon = seg[0],
+    linkText = seg[1],
+    linkTitle = seg[2],
+    linkHref = seg[3],
+    deviceClass = "." + seg[4],
+    linkTarget = seg[5] === "self" ? "" : "_blank",
+    keepOnScrollClass = seg[6] === "keep" ? ".keep" : "";
 
   api.decorateWidget("header-buttons:before", helper => {
+    let contentHelper=[];
+    //put icon if there is one
+    if(linkIcon != null && linkIcon.length>2){
+      contentHelper.push(iconNode(linkIcon));
+    }
+    contentHelper.push(helper.h("span",linkText));
+
     return helper.h(
       "li.headerLink" + deviceClass + keepOnScrollClass,
       helper.h(
@@ -19,8 +28,10 @@ customHeaderLinks.split("|").map(i => {
           href: linkHref,
           title: linkTitle,
           target: linkTarget
-        },
-        linkText
+        },[
+            iconNode(linkIcon),
+            helper.h("span",linkText)
+          ]
       )
     );
   });
