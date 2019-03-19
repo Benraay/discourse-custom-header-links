@@ -15,6 +15,7 @@ customHeaderLinks.split("|").map(i => {
   api.decorateWidget("header-buttons:before", helper => {
     let contentHelper=[];
     //put icon if there is one
+    console.log("linkIcon",linkIcon);
     if(linkIcon != null && linkIcon.length>2){
       contentHelper.push(iconNode(linkIcon));
     }
