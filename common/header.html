@@ -28,10 +28,7 @@ customHeaderLinks.split("|").map(i => {
           href: linkHref,
           title: linkTitle,
           target: linkTarget
-        },[
-            iconNode(linkIcon),
-            helper.h("span",linkText)
-          ]
+        },contentHelper
       )
     );
   });
